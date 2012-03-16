@@ -25,10 +25,10 @@ fs.writeFileSync("./test.html", j2h.render({
     "state": "online"
   },
   "Login": {
-    "email": "hhardel@gmail.com",
-    "firstName": "hugo",
+    "email": "blah@blha.blah",
+    "firstName": "blahah",
     "hash": "POKT+0hJxoMLP8SgMkM5BtJVhzaUaySpOUiOG91KnSs=",
-    "lastName": "hardel",
+    "lastName": "blah",
     "verified": true
   },
   "Profile": {
