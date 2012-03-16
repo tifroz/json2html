@@ -1,14 +1,19 @@
 _ = require("underscore")
-toggleJS = "onclick=\"j2h.toggleVisibility(this);return false\""
 
-makeTitleDiv = (level, keyname, datatype)->
+toggleJS = (options)->
+	if options?.plainHtml
+		return ""
+	else
+		"onclick=\"j2h.toggleVisibility(this);return false\""
+
+makeTitleDiv = (options, level, keyname, datatype)->
 	if _.isNumber(keyname)
 		return "<div class='index'>#{keyname}&nbsp;</div>"
 	else if _.isString(keyname)
 		if datatype is 'array'
-			return "<div class='collapsible level#{level}' #{toggleJS}>[#{keyname}]</div>"
+			return "<div class='collapsible level#{level}' #{toggleJS(options)}>[#{keyname}]</div>"
 		else if datatype is 'object'
-			return "<div class='attribute collapsible level#{level}' #{toggleJS}>#{keyname}</div>"
+			return "<div class='attribute collapsible level#{level}' #{toggleJS(options)}>#{keyname}</div>"
 		else
 			return "<div class='leaf level#{level}'>#{keyname}</div>"
 	else return ""
@@ -20,6 +25,7 @@ getContentClass = (keyname)->
 		return ""
 isLeafValue = (val)->
 	return _.isNumber(val) or _.isString(val) or _.isBoolean(val) or _.isDate(val) or _.isNull(val) or _.isUndefined(val) or _.isNaN(val)
+
 isLeafObject = (obj)->
 	if not _.isObject(obj)
 		return false
@@ -59,21 +65,20 @@ drawTable = (arr)->
 		
 	
 render = (name, data, options, level, altrow)->
-	
 	contentClass = getContentClass(name)
 	altrow = if altrow then "odd" else "even"
 	if _.isArray(data)
-		title = makeTitleDiv(level, name, 'array')
+		title = makeTitleDiv(options, level, name, 'array')
 		if isTable(data)
 			subs = drawTable(data)
 		else
 			subs = "<div>"+(render(idx, val, options, (level+1), (idx % 2)) for val, idx in data).join("</div><div>")+"</div>"
 		return "<div class=\"collapse clearfix #{altrow}\">#{title}<div class=\"#{contentClass}\">#{subs}</div></div>" 
 	else if isLeafValue(data)
-		title = makeTitleDiv(level, name) ;
+		title = makeTitleDiv(options, level, name) ;
 		return "#{title}<span>&nbsp;&nbsp;#{data}</span>"
 	else
-		title = makeTitleDiv(level, name, 'object')
+		title = makeTitleDiv(options, level, name, 'object')
 		count = 0
 		subs = "<div>"+(render(key, data[key], options, (level+1), (count++ % 2) ) for key of data).join("</div><div>")+"</div>"
 		return "<div class=\"expand clearfix #{altrow}\">#{title}<div class=\"#{contentClass}\">#{subs}</div></div>"
