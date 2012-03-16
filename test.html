@@ -1,0 +1,96 @@
+<style type="text/css">
+.leftoffset {
+	padding-left: 20px ;
+}
+.attribute:after {
+	content: ':';
+}
+.array:after {
+	content: ']';
+}
+.array:before {
+	content: '[';
+}
+.index {
+	font-size: 100% ;
+	color: #999 ;
+	float: left ;
+}
+.clearfix:after {
+	content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.collapsible:hover {
+	text-decoration: underline ;
+}
+.collapse > div {
+	display: none ;
+}
+.collapse > span {
+	font-weight: bold ;
+	font-size: 100% ;
+}
+
+.collapse > span.collapsible:before {
+	border-radius: 2px;
+	border-color: #A44;
+	border-style: solid;
+	border-width: 1px;
+	color: #A44;
+	content: '+';
+	display: inline-block;
+	line-height: 7px;
+	margin: 0 2px;
+	overflow: hidden;
+	padding: 1px;
+	font-size: 11px ;
+}
+
+.expand > span.collapsible:before {
+	border: none ;
+	color: #A44;
+	content: '-';
+	display: inline-block;
+	line-height: 7px;
+	margin: 4px;
+	overflow: hidden;
+	padding: 1px;
+	font-size: 11px ;
+}
+
+
+</style>
+<script type=text/javascript>
+	j2h = {
+		toggleVisibility: function(el, name) {
+			j2h.toggleClass(el.parentElement,'collapse expand') ;
+		},
+		classRe: function(name) {
+			return new RegExp('(?:^|\\s)'+name+'(?!\\S)') ;
+		},
+		addClass: function(el, name) {
+			el.className += " "+name;
+		},
+		removeClass: function(el, name) {
+			var re = j2h.classRe(name) ;
+			el.className  = el.className.replace( j2h.classRe(name) , '' )
+		},
+		hasClass: function(el, name) {
+			var re = j2h.classRe(name) ;
+			return j2h.classRe(name).exec(el.className);
+		},
+		toggleClass: function(el, name) {
+			var names = name.split(/\s+/) ;
+			for (n in names) {
+				if (j2h.hasClass(el, names[n])) {
+					j2h.removeClass(el, names[n]) ;
+				} else {
+					j2h.addClass(el, names[n]) ;
+				}
+			}
+		}
+	};
+</script><div class="expand clearfix"><div class=""><div><div class="collapse clearfix"><span class='attribute collapsible' onclick="j2h.toggleVisibility(this);return false">myarray</span><div class="leftoffset"><div><div class="expand clearfix"><span class='index'>0&nbsp;</span><div class=""><div><span class='attribute'>a</span><span>Fri Mar 16 2012 00:36:24 GMT-0700 (PDT)</span></div></div></div></div><div><div class="expand clearfix"><span class='index'>1&nbsp;</span><div class=""><div><span class='attribute'>b</span><span>1</span></div></div></div></div><div><div class="expand clearfix"><span class='index'>2&nbsp;</span><div class=""><div><div class="expand clearfix"><span class='array collapsible' onclick="j2h.toggleVisibility(this);return false">c</span><div class="leftoffset"><div><span class='attribute'>r</span><span>2</span></div><div><span class='attribute'>d</span><span>2</span></div><div><div class="collapse clearfix"><span class='attribute collapsible' onclick="j2h.toggleVisibility(this);return false">blah</span><div class="leftoffset"><div><span class='index'>0&nbsp;</span><span>un</span></div><div><span class='index'>1&nbsp;</span><span>deux</span></div><div><span class='index'>2&nbsp;</span><span>trois</span></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div>
