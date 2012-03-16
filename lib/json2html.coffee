@@ -1,47 +1,105 @@
 _ = require("underscore")
 toggleJS = "onclick=\"j2h.toggleVisibility(this);return false\""
-makeTitleSpan = (keyname, datatype)->
+
+makeTitleDiv = (level, keyname, datatype)->
 	if _.isNumber(keyname)
-		return "<span class='index'>#{keyname}&nbsp;</span>"
+		return "<div class='index'>#{keyname}&nbsp;</div>"
 	else if _.isString(keyname)
 		if datatype is 'array'
-			return "<span class='attribute collapsible' #{toggleJS}>#{keyname}</span>"
+			return "<div class='collapsible level#{level}' #{toggleJS}>[#{keyname}]</div>"
 		else if datatype is 'object'
-			return "<span class='array collapsible' #{toggleJS}>#{keyname}</span>"
+			return "<div class='attribute collapsible level#{level}' #{toggleJS}>#{keyname}</div>"
 		else
-			return "<span class='attribute'>#{keyname}</span>"
+			return "<div class='leaf level#{level}'>#{keyname}</div>"
 	else return ""
-getOffsetClass = (keyname)->
+	
+getContentClass = (keyname)->
 	if _.isString(keyname)
-		return "leftoffset"
+		return "content"
 	else
 		return ""
-	
-_render = (name, data, options, level)->
-	
-	offsetClass = getOffsetClass(name)
-	if _.isArray(data)
-		title = makeTitleSpan(name, 'array') ;
-		subs = "<div>"+(_render(idx, val, options, (level+1)) for val, idx in data).join("</div><div>")+"</div>" ;
-		return "<div class=\"collapse clearfix\">#{title}<div class=\"#{offsetClass}\">#{subs}</div></div>" ; 
-	else if _.isNumber(data) or _.isString(data) or _.isDate(data)
-		title = makeTitleSpan(name) ;
-		return "#{title}<span>#{data}</span>"
+isLeafValue = (val)->
+	return _.isNumber(val) or _.isString(val) or _.isBoolean(val) or _.isDate(val) or _.isNull(val) or _.isUndefined(val) or _.isNaN(val)
+isLeafObject = (obj)->
+	if not _.isObject(obj)
+		return false
+	for key, val of obj
+		if not isLeafValue(val)
+			return false
+	return true
+
+isTable = (arr)->
+	if not _.isArray(arr)
+		return false
+	if arr.length is 0 or not _.isObject(arr[0])
+		return false
 	else
-		title = makeTitleSpan(name, 'object') ;
-		subs = "<div>"+(_render(key, data[key], options, (level+1)) for key of data).join("</div><div>")+"</div>" ;
-		return "<div class=\"expand clearfix\">#{title}<div class=\"#{offsetClass}\">#{subs}</div></div>"  ;
+		nonCompliant = _.detect arr, (row)-> not isLeafObject(row)
+		if nonCompliant
+			return false
+		else
+			cols = _.keys(arr[0])
+			nonCompliant = _.detect arr, (row)-> not _.isEqual cols, _.keys(row)
+			if nonCompliant
+				return false
+			else
+				return true
+			
+drawTable = (arr)->
+	drawRow = (headers, rowObj) ->
+		return "<td>" + (rowObj[header] for header in headers).join("</td><td>") + "</td>"
+	cols = _.keys(arr[0])
+	content = ((drawRow(cols, rowObj)) for rowObj in arr)
+	
+	headingHtml = "<tr><th>" + cols.join("</th><th>") + "</th></tr>" 
+	contentHtml = "<tr>" + content.join("</tr><tr>") + "</tr>"
+	
+	return "<table>#{headingHtml}#{contentHtml}</table>"
+	
 		
+	
+render = (name, data, options, level, altrow)->
+	
+	contentClass = getContentClass(name)
+	altrow = if altrow then "odd" else "even"
+	if _.isArray(data)
+		title = makeTitleDiv(level, name, 'array')
+		if isTable(data)
+			subs = drawTable(data)
+		else
+			subs = "<div>"+(render(idx, val, options, (level+1), (idx % 2)) for val, idx in data).join("</div><div>")+"</div>"
+		return "<div class=\"collapse clearfix #{altrow}\">#{title}<div class=\"#{contentClass}\">#{subs}</div></div>" 
+	else if isLeafValue(data)
+		title = makeTitleDiv(level, name) ;
+		return "#{title}<span>&nbsp;&nbsp;#{data}</span>"
+	else
+		title = makeTitleDiv(level, name, 'object')
+		count = 0
+		subs = "<div>"+(render(key, data[key], options, (level+1), (count++ % 2) ) for key of data).join("</div><div>")+"</div>"
+		return "<div class=\"expand clearfix #{altrow}\">#{title}<div class=\"#{contentClass}\">#{subs}</div></div>"
 
 exports.render = (json, options)->
-	return "#{head}#{_render(null,json, options, 0)}"
+	return "#{head}#{render(null,json, options, 0, 0)}"
 
 
 
 head = '''
 <style type="text/css">
-.leftoffset {
-	padding-left: 20px ;
+table {
+	border-collapse:collapse;
+}
+th {
+	color: #888 ;
+}
+table,th, td {
+	border: 1px solid #DDD;
+	padding: 10px 5px ;
+}
+th, td {
+	text-align:center;
+}
+.content {
+	padding-left: 30px ;
 }
 .attribute:after {
 	content: ':';
@@ -67,12 +125,11 @@ head = '''
 .collapsible:hover {
 	text-decoration: underline ;
 }
-.collapse > div {
+.collapse > div.content {
 	display: none ;
 }
-.collapse > span {
+.collapse > div:first-child {
 	font-weight: bold ;
-	font-size: 100% ;
 }
 
 .collapse > span.collapsible:before {
@@ -102,6 +159,24 @@ head = '''
 	font-size: 11px ;
 }
 
+.level0 {
+	font-size: 25px ;
+}
+.level1 {
+	font-size: 22px ;
+}
+
+.even .level1 {
+	background-color: #CCC ;
+}
+.odd .level1 {
+	background-color: #EEE ;
+}
+
+.leaf {
+	color: #888;
+	display: inline ;
+}
 
 </style>
 <script type=text/javascript>
