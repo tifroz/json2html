@@ -29,6 +29,8 @@ http.createServer(function (req, res) {
 }).listen(1337, '127.0.0.1');
 ```
 
+This will produce a page with this html https://gist.github.com/2053246 (plus some minimalistic css formatting / javascript to exand or collapse content)
+
 ### Usage
 ```
  require('json2html').render(json, options)
