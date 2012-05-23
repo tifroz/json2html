@@ -73,7 +73,7 @@ render = (name, data, options, level, altrow)->
 			subs = drawTable(data)
 		else
 			subs = "<div>"+(render(idx, val, options, (level+1), (idx % 2)) for val, idx in data).join("</div><div>")+"</div>"
-		return "<div class=\"collapse clearfix #{altrow}\">#{title}<div class=\"#{contentClass}\">#{subs}</div></div>" 
+		return "<div class=\"j2hcollapse clearfix #{altrow}\">#{title}<div class=\"#{contentClass}\">#{subs}</div></div>" 
 	else if isLeafValue(data)
 		title = makeTitleDiv(options, level, name) ;
 		return "#{title}<span>&nbsp;&nbsp;#{data}</span>"
@@ -81,7 +81,7 @@ render = (name, data, options, level, altrow)->
 		title = makeTitleDiv(options, level, name, 'object')
 		count = 0
 		subs = "<div>"+(render(key, data[key], options, (level+1), (count++ % 2) ) for key of data).join("</div><div>")+"</div>"
-		return "<div class=\"expand clearfix #{altrow}\">#{title}<div class=\"#{contentClass}\">#{subs}</div></div>"
+		return "<div class=\"j2hexpand clearfix #{altrow}\">#{title}<div class=\"#{contentClass}\">#{subs}</div></div>"
 
 exports.render = (json, options)->
 	return "#{head}#{render(null,json, options, 0, 0)}"
@@ -130,14 +130,14 @@ th, td {
 .collapsible:hover {
 	text-decoration: underline ;
 }
-.collapse > div.content {
+.j2hcollapse > div.content {
 	display: none ;
 }
-.collapse > div:first-child {
+.j2hcollapse > div:first-child {
 	font-weight: bold ;
 }
 
-.collapse > span.collapsible:before {
+.j2hcollapse > span.collapsible:before {
 	border-radius: 2px;
 	border-color: #A44;
 	border-style: solid;
@@ -152,7 +152,7 @@ th, td {
 	font-size: 11px ;
 }
 
-.expand > span.collapsible:before {
+.j2hexpand > span.collapsible:before {
 	border: none ;
 	color: #A44;
 	content: '-';
@@ -187,7 +187,7 @@ th, td {
 <script type=text/javascript>
 	j2h = {
 		toggleVisibility: function(el, name) {
-			j2h.toggleClass(el.parentElement,'collapse expand') ;
+			j2h.toggleClass(el.parentElement,'j2hcollapse j2hexpand') ;
 		},
 		classRe: function(name) {
 			return new RegExp('(?:^|\\\\s)'+name+'(?!\\\\S)') ;

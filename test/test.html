@@ -39,14 +39,14 @@ th, td {
 .collapsible:hover {
 	text-decoration: underline ;
 }
-.collapse > div.content {
+.j2hcollapse > div.content {
 	display: none ;
 }
-.collapse > div:first-child {
+.j2hcollapse > div:first-child {
 	font-weight: bold ;
 }
 
-.collapse > span.collapsible:before {
+.j2hcollapse > span.collapsible:before {
 	border-radius: 2px;
 	border-color: #A44;
 	border-style: solid;
@@ -61,7 +61,7 @@ th, td {
 	font-size: 11px ;
 }
 
-.expand > span.collapsible:before {
+.j2hexpand > span.collapsible:before {
 	border: none ;
 	color: #A44;
 	content: '-';
@@ -96,7 +96,7 @@ th, td {
 <script type=text/javascript>
 	j2h = {
 		toggleVisibility: function(el, name) {
-			j2h.toggleClass(el.parentElement,'collapse expand') ;
+			j2h.toggleClass(el.parentElement,'j2hcollapse j2hexpand') ;
 		},
 		classRe: function(name) {
 			return new RegExp('(?:^|\\s)'+name+'(?!\\S)') ;
@@ -123,4 +123,4 @@ th, td {
 			}
 		}
 	};
-</script><div class="expand clearfix even"><div class=""><div><div class="collapse clearfix even"><div class='collapsible level1' onclick="j2h.toggleVisibility(this);return false">[a_table]</div><div class="content"><table><tr><th>name</th><th>tel</th><th>email</th></tr><tr><td>hugo</td><td>1234561234</td><td>hugo@blah.com</td></tr><tr><td>joe</td><td>1234569999</td><td>joe@blah.com</td></tr></table></div></div></div><div><div class="collapse clearfix odd"><div class='collapsible level1' onclick="j2h.toggleVisibility(this);return false">[straigh_array]</div><div class="content"><div><div class='index'>0&nbsp;</div><span>&nbsp;&nbsp;a</span></div><div><div class='index'>1&nbsp;</div><span>&nbsp;&nbsp;b</span></div><div><div class='index'>2&nbsp;</div><span>&nbsp;&nbsp;c</span></div></div></div></div><div><div class="expand clearfix even"><div class='attribute collapsible level1' onclick="j2h.toggleVisibility(this);return false">an_object</div><div class="content"><div><div class="expand clearfix even"><div class='attribute collapsible level2' onclick="j2h.toggleVisibility(this);return false">myAttribute</div><div class="content"><div><div class='leaf level3'>a</div><span>&nbsp;&nbsp;1</span></div><div><div class='leaf level3'>b</div><span>&nbsp;&nbsp;2</span></div></div></div></div><div><div class="expand clearfix odd"><div class='attribute collapsible level2' onclick="j2h.toggleVisibility(this);return false">anotherAttribute</div><div class="content"><div><div class='leaf level3'>r</div><span>&nbsp;&nbsp;1</span></div><div><div class='leaf level3'>d</div><span>&nbsp;&nbsp;2</span></div></div></div></div></div></div></div></div></div>
+</script><div class="j2hexpand clearfix even"><div class=""><div><div class="j2hcollapse clearfix even"><div class='collapsible level1' onclick="j2h.toggleVisibility(this);return false">[a_table]</div><div class="content"><table><tr><th>name</th><th>tel</th><th>email</th></tr><tr><td>hugo</td><td>1234561234</td><td>hugo@blah.com</td></tr><tr><td>joe</td><td>1234569999</td><td>joe@blah.com</td></tr></table></div></div></div><div><div class="j2hcollapse clearfix odd"><div class='collapsible level1' onclick="j2h.toggleVisibility(this);return false">[straigh_array]</div><div class="content"><div><div class='index'>0&nbsp;</div><span>&nbsp;&nbsp;a</span></div><div><div class='index'>1&nbsp;</div><span>&nbsp;&nbsp;b</span></div><div><div class='index'>2&nbsp;</div><span>&nbsp;&nbsp;c</span></div></div></div></div><div><div class="j2hexpand clearfix even"><div class='attribute collapsible level1' onclick="j2h.toggleVisibility(this);return false">an_object</div><div class="content"><div><div class="j2hexpand clearfix even"><div class='attribute collapsible level2' onclick="j2h.toggleVisibility(this);return false">myAttribute</div><div class="content"><div><div class='leaf level3'>a</div><span>&nbsp;&nbsp;1</span></div><div><div class='leaf level3'>b</div><span>&nbsp;&nbsp;2</span></div></div></div></div><div><div class="j2hexpand clearfix odd"><div class='attribute collapsible level2' onclick="j2h.toggleVisibility(this);return false">anotherAttribute</div><div class="content"><div><div class='leaf level3'>r</div><span>&nbsp;&nbsp;2</span></div><div><div class='leaf level3'>d</div><span>&nbsp;&nbsp;2</span></div></div></div></div></div></div></div></div></div>
