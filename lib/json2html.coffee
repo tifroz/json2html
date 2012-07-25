@@ -128,10 +128,10 @@ th, td {
   clear: both;
   visibility: hidden;
 }
-.label {
+.j2hlabel {
 	font-family: Helvetica Neue ;
 }
-.collapsible > .label:hover {
+.collapsible > .j2hlabel:hover {
 	text-shadow: 0px 0px 1px black ;
 }
 .j2hcollapse > div.content {
