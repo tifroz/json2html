@@ -8,14 +8,14 @@ toggleJS = (options)->
 
 makeLabelDiv = (options, level, keyname, datatype)->
 	if _.isNumber(keyname)
-		return "<div class='index'><span class='label'>#{keyname}&nbsp;</span></div>"
+		return "<div class='index'><span class='j2hlabel'>#{keyname}&nbsp;</span></div>"
 	else if _.isString(keyname)
 		if datatype is 'array'
-			return "<div class='collapsible level#{level}' #{toggleJS(options)}><span class='label'>#{keyname}</span></div>"
+			return "<div class='collapsible level#{level}' #{toggleJS(options)}><span class='j2hlabel'>#{keyname}</span></div>"
 		else if datatype is 'object'
-			return "<div class='attribute collapsible level#{level}' #{toggleJS(options)}><span class='label'>#{keyname}</span></div>"
+			return "<div class='attribute collapsible level#{level}' #{toggleJS(options)}><span class='j2hlabel'>#{keyname}</span></div>"
 		else
-			return "<div class='leaf level#{level}'><span class='label'>#{keyname}</span></div>"
+			return "<div class='leaf level#{level}'><span class='j2hlabel'>#{keyname}</span></div>"
 	else return ""
 	
 getContentClass = (keyname)->
@@ -137,11 +137,11 @@ th, td {
 .j2hcollapse > div.content {
 	display: none ;
 }
-.j2hcollapse > .label {
+.j2hcollapse > .j2hlabel {
 	font-weight: bold ;
 }
 
-.j2hexpand  > div > .label, .j2hcollapse  > div > .label {
+.j2hexpand  > div > .j2hlabel, .j2hcollapse  > div > .j2hlabel {
 	background-repeat:no-repeat;
 	background-position:right;
 	padding-right: 25px ;
@@ -149,11 +149,11 @@ th, td {
 	display: inline-block ;
 }
 
-.j2hexpand  > div > .label {
+.j2hexpand  > div > .j2hlabel {
 	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAD8GlDQ1BJQ0MgUHJvZmlsZQAAKJGNVd1v21QUP4lvXKQWP6Cxjg4Vi69VU1u5GxqtxgZJk6XpQhq5zdgqpMl1bhpT1za2021Vn/YCbwz4A4CyBx6QeEIaDMT2su0BtElTQRXVJKQ9dNpAaJP2gqpwrq9Tu13GuJGvfznndz7v0TVAx1ea45hJGWDe8l01n5GPn5iWO1YhCc9BJ/RAp6Z7TrpcLgIuxoVH1sNfIcHeNwfa6/9zdVappwMknkJsVz19HvFpgJSpO64PIN5G+fAp30Hc8TziHS4miFhheJbjLMMzHB8POFPqKGKWi6TXtSriJcT9MzH5bAzzHIK1I08t6hq6zHpRdu2aYdJYuk9Q/881bzZa8Xrx6fLmJo/iu4/VXnfH1BB/rmu5ScQvI77m+BkmfxXxvcZcJY14L0DymZp7pML5yTcW61PvIN6JuGr4halQvmjNlCa4bXJ5zj6qhpxrujeKPYMXEd+q00KR5yNAlWZzrF+Ie+uNsdC/MO4tTOZafhbroyXuR3Df08bLiHsQf+ja6gTPWVimZl7l/oUrjl8OcxDWLbNU5D6JRL2gxkDu16fGuC054OMhclsyXTOOFEL+kmMGs4i5kfNuQ62EnBuam8tzP+Q+tSqhz9SuqpZlvR1EfBiOJTSgYMMM7jpYsAEyqJCHDL4dcFFTAwNMlFDUUpQYiadhDmXteeWAw3HEmA2s15k1RmnP4RHuhBybdBOF7MfnICmSQ2SYjIBM3iRvkcMki9IRcnDTthyLz2Ld2fTzPjTQK+Mdg8y5nkZfFO+se9LQr3/09xZr+5GcaSufeAfAww60mAPx+q8u/bAr8rFCLrx7s+vqEkw8qb+p26n11Aruq6m1iJH6PbWGv1VIY25mkNE8PkaQhxfLIF7DZXx80HD/A3l2jLclYs061xNpWCfoB6WHJTjbH0mV35Q/lRXlC+W8cndbl9t2SfhU+Fb4UfhO+F74GWThknBZ+Em4InwjXIyd1ePnY/Psg3pb1TJNu15TMKWMtFt6ScpKL0ivSMXIn9QtDUlj0h7U7N48t3i8eC0GnMC91dX2sTivgloDTgUVeEGHLTizbf5Da9JLhkhh29QOs1luMcScmBXTIIt7xRFxSBxnuJWfuAd1I7jntkyd/pgKaIwVr3MgmDo2q8x6IdB5QH162mcX7ajtnHGN2bov71OU1+U0fqqoXLD0wX5ZM005UHmySz3qLtDqILDvIL+iH6jB9y2x83ok898GOPQX3lk3Itl0A+BrD6D7tUjWh3fis58BXDigN9yF8M5PJH4B8Gr79/F/XRm8m241mw/wvur4BGDj42bzn+Vmc+NL9L8GcMn8F1kAcXjEKMJAAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAvUlEQVQokcXSsQqDMBAG4DM5dNEIR8ic0c0XyEv0DfoKPlEfQ1fJ0t2lu0snt87XpRYbG0Gh9CAEcnw/B7mEmeFoicPyZ5iISq31hYjKXZiISkTs8zw/I2IfC1jhGapC1VmWgSpUHQsQMShRAgCARBkNEFswTdP7VoCIQWNMNwzDyRjThQEfeJqmh7V2XELvfQMAV+99swyw1o7vuZl5PpVzrnXOtcxcLd6jvSRYz+p13778zKoX4l31v91+Aia/VebVEqkCAAAAAElFTkSuQmCC) ;
 }
 
-.j2hcollapse > div > .label {
+.j2hcollapse > div > .j2hlabel {
 	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAD8GlDQ1BJQ0MgUHJvZmlsZQAAKJGNVd1v21QUP4lvXKQWP6Cxjg4Vi69VU1u5GxqtxgZJk6XpQhq5zdgqpMl1bhpT1za2021Vn/YCbwz4A4CyBx6QeEIaDMT2su0BtElTQRXVJKQ9dNpAaJP2gqpwrq9Tu13GuJGvfznndz7v0TVAx1ea45hJGWDe8l01n5GPn5iWO1YhCc9BJ/RAp6Z7TrpcLgIuxoVH1sNfIcHeNwfa6/9zdVappwMknkJsVz19HvFpgJSpO64PIN5G+fAp30Hc8TziHS4miFhheJbjLMMzHB8POFPqKGKWi6TXtSriJcT9MzH5bAzzHIK1I08t6hq6zHpRdu2aYdJYuk9Q/881bzZa8Xrx6fLmJo/iu4/VXnfH1BB/rmu5ScQvI77m+BkmfxXxvcZcJY14L0DymZp7pML5yTcW61PvIN6JuGr4halQvmjNlCa4bXJ5zj6qhpxrujeKPYMXEd+q00KR5yNAlWZzrF+Ie+uNsdC/MO4tTOZafhbroyXuR3Df08bLiHsQf+ja6gTPWVimZl7l/oUrjl8OcxDWLbNU5D6JRL2gxkDu16fGuC054OMhclsyXTOOFEL+kmMGs4i5kfNuQ62EnBuam8tzP+Q+tSqhz9SuqpZlvR1EfBiOJTSgYMMM7jpYsAEyqJCHDL4dcFFTAwNMlFDUUpQYiadhDmXteeWAw3HEmA2s15k1RmnP4RHuhBybdBOF7MfnICmSQ2SYjIBM3iRvkcMki9IRcnDTthyLz2Ld2fTzPjTQK+Mdg8y5nkZfFO+se9LQr3/09xZr+5GcaSufeAfAww60mAPx+q8u/bAr8rFCLrx7s+vqEkw8qb+p26n11Aruq6m1iJH6PbWGv1VIY25mkNE8PkaQhxfLIF7DZXx80HD/A3l2jLclYs061xNpWCfoB6WHJTjbH0mV35Q/lRXlC+W8cndbl9t2SfhU+Fb4UfhO+F74GWThknBZ+Em4InwjXIyd1ePnY/Psg3pb1TJNu15TMKWMtFt6ScpKL0ivSMXIn9QtDUlj0h7U7N48t3i8eC0GnMC91dX2sTivgloDTgUVeEGHLTizbf5Da9JLhkhh29QOs1luMcScmBXTIIt7xRFxSBxnuJWfuAd1I7jntkyd/pgKaIwVr3MgmDo2q8x6IdB5QH162mcX7ajtnHGN2bov71OU1+U0fqqoXLD0wX5ZM005UHmySz3qLtDqILDvIL+iH6jB9y2x83ok898GOPQX3lk3Itl0A+BrD6D7tUjWh3fis58BXDigN9yF8M5PJH4B8Gr79/F/XRm8m241mw/wvur4BGDj42bzn+Vmc+NL9L8GcMn8F1kAcXjEKMJAAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAy0lEQVQokcXSQQqDMBAF0J8SDIRAQeYIknWWXbjwKHbppeIxeoAcQ6EXEHfdFaabRixNFKTQgUBg/htmMYKZcbROh+VPMRH1RNSngqmeXDeNMe37j2marns9CQBlWZ6J6CKEiPk2hiJUSgEAiqK4fKw9z/PDe99prUcAUErBGNMS0X0Ntdaj975b9mbm+GQIoXHODdZattZyVVUc/865IYTQMLOMZo2TA3Iwhb8G5GAOLwPqur7lIDNDbJynBFABGAE8U4EtvFv/u+0XXc3BmKS0o/MAAAAASUVORK5CYII=);
 }
 
