@@ -21,4 +21,4 @@ myJson =
 			r: 2
 			d: 2
 
-fs.writeFileSync("./test/test.html", j2h.render(myJson))
+fs.writeFileSync("./test/test.html", "#{j2h.render(myJson)} #{j2h.render(myJson)}")

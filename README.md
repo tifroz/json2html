@@ -1,4 +1,4 @@
-### A really (**really***) simple node.js formatter for json data
+### A really (**really**) simple node.js formatter for json data
 
 json2html simply takes a json structure as an input and returns an html string. It can be nice for exploring your data - but don't expect too much of it. 
 
@@ -33,7 +33,7 @@ This will produce a page with this html https://gist.github.com/2053246 (plus so
 
 ### Usage
 ```
- require('json2html').render(json, options)
+require('json2html').render(json, options)
 ```
 
 ```json``` is the json object you want to convert into HTML
