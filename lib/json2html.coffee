@@ -23,8 +23,17 @@ getContentClass = (keyname)->
 		return "content"
 	else
 		return ""
+isPlainObject = (val)->
+	# Own properties are enumerated firstly, so to speed up,
+	# if last one is own, then all properties are own.
+	for own key of val
+		lastOwnKey = key
+	for key of val
+		lastKey = key
+	return lastOwnKey is lastKey
 isLeafValue = (val)->
-	return _.isNumber(val) or _.isString(val) or _.isBoolean(val) or _.isDate(val) or _.isNull(val) or _.isUndefined(val) or _.isNaN(val)
+	return _.isNumber(val) or _.isString(val) or _.isBoolean(val) or _.isDate(val) or _.isNull(val) \
+	or _.isUndefined(val) or _.isNaN(val) or _.isFunction(val) or not isPlainObject(val)
 
 isLeafObject = (obj)->
 	if not _.isObject(obj)
@@ -65,7 +74,7 @@ drawTable = (arr)->
 		
 	
 render = (name, data, options, level, altrow)->
-	#console.log "printing level #{level}"
+	#console.log "printing level #{level} for key #{name}"
 	contentClass = getContentClass(name)
 	if _.isArray(data)
 		title = makeLabelDiv(options, level, "#{name} (#{data.length})", 'array')
@@ -79,8 +88,16 @@ render = (name, data, options, level, altrow)->
 			<div class=\"#{contentClass}\">#{subs}</div>
 		</div>" 
 	else if isLeafValue(data)
-		title = makeLabelDiv(options, level, name) ;
-		return "#{title}<span class='j2hvalue'>&nbsp;&nbsp;#{data}</span>"
+		title = makeLabelDiv(options, level, name)
+		if _.isFunction(data)
+			return "#{title}<span class='j2hvalue'>&nbsp;&nbsp;-function() can't render-</span>"
+		else if not isPlainObject(data)
+			if _.isFunction data.toString
+				return "#{title}<span class='j2hvalue'>&nbsp;&nbsp;#{data.toString()}</span>"
+			else
+				return "#{title}<span class='j2hvalue'>&nbsp;&nbsp;-instance object, can't render-</span>"
+		else
+			return "#{title}<span class='j2hvalue'>&nbsp;&nbsp;#{data}</span>"
 	else
 		title = makeLabelDiv(options, level, name, 'object')
 		count = 0

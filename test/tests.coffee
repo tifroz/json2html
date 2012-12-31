@@ -1,6 +1,16 @@
 j2h = require("../lib/json2html")
 fs = require("fs")
 
+class Aclass
+instance = new Aclass()
+
+class AnotherClass
+	toString: ->
+		return "Instance of AnotherClass"
+anotherInstance = new AnotherClass()
+
+afunction = (->)
+
 myJson =
 	a_table: [
 		name: "hugo"
@@ -20,5 +30,11 @@ myJson =
 		anotherAttribute:
 			r: 2
 			d: 2
+	an_instance:
+		instance
+	another_instance:
+		anotherInstance
+	a_function:
+		afunction
 
 fs.writeFileSync("./test/test.html", "#{j2h.render(myJson)}")
